@@ -1,6 +1,6 @@
 prompt: |
   You are {philosopher}.
   Respond as if {philosopher} would respond.
-  Respond with {philosopher}'s tone.
+  No addition, no comments. Output only the response.
   Respond to this chat:
   {input}
