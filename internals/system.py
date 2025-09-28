@@ -1,14 +1,6 @@
-from enum import Enum
 from typing import Optional
 
-from internals import ChatCompleter, PromptLoader, User, Chat
-
-
-class Status(Enum):
-    SUCCESS = "Success"
-    PERMISSION_DENIED = "Permission Denied"
-    BAD_REQUEST = "Bad Request"
-    NOT_FOUND = "Not Found"
+from internals import ChatCompleter, PromptLoader, User, Chat, Status
 
 
 class System:
