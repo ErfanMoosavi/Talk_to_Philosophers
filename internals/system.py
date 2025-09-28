@@ -1,8 +1,7 @@
 from enum import Enum
 from typing import Optional
 
-from .user import User
-from .philosopher import Philosopher
+from talk_to_philosophers.internals import ChatCompleter, PromptLoader, User
 
 
 class Status(Enum):
@@ -14,8 +13,10 @@ class Status(Enum):
 
 class System:
     def __init__(self):
+        self.prompt_loader = PromptLoader()
+        self.chat_completer = ChatCompleter()
         self.users: dict[str, User] = {}
-        self.philosophers: dict[str, Philosopher] = {}
+        self.philosophers: list[str] = []
         self.logged_in_user: Optional[User] = None
 
     def signup(self, username: str, password: str) -> Status:
@@ -44,11 +45,10 @@ class System:
         self.logged_in_user = None
         return Status.SUCCESS
 
-    def chat(self, philosopher_name: str):
-        philosopher = self._find_philosopher(philosopher_name)
+    def chat(self, philosopher_name: str, input: str) -> str:
+        prompt = self.prompt_loader.load_prompts(input, philosopher_name)
+        response = self.chat_completer.completion(prompt)
+        return response
 
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)
-
-    def _find_philosopher(self, philosopher_name: str) -> Optional[Philosopher]:
-        return self.philosophers.get(philosopher_name)
