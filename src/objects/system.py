@@ -6,7 +6,7 @@ from .philosopher import Philosopher
 
 
 class Status(Enum):
-    SUCCESS = "Success!"
+    SUCCESS = "Success"
     PERMISSION_DENIED = "Permission Denied"
     BAD_REQUEST = "Bad Request"
     NOT_FOUND = "Not Found"
@@ -44,5 +44,11 @@ class System:
         self.logged_in_user = None
         return Status.SUCCESS
 
+    def chat(self, philosopher_name: str):
+        philosopher = self._find_philosopher(philosopher_name)
+
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)
+
+    def _find_philosopher(self, philosopher_name: str) -> Optional[Philosopher]:
+        return self.philosophers.get(philosopher_name)
