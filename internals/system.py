@@ -1,6 +1,6 @@
 from typing import Optional
 
-from internals import ChatCompleter, PromptLoader, User, Chat, Status
+from internals import ChatCompleter, PromptLoader, User, Status
 
 
 class System:
@@ -38,27 +38,21 @@ class System:
         return Status.SUCCESS
 
     def new_chat(self, chat_name: str) -> Status:
-        self.logged_in_user.new_chat(chat_name)
-        return Status.SUCCESS
+        return self.logged_in_user.new_chat(chat_name)
 
     def select_chat(self, chat_name: str) -> Status:
-        self.logged_in_user.selected_chat = self._find_chat(chat_name)
-        return Status.SUCCESS
+        return self.logged_in_user.select_chat(chat_name)
 
     def exit_chat(self) -> Status:
-        self.logged_in_user.selected_chat = None
+        return self.logged_in_user.exit_chat
 
-    def send_message(self, philosopher_name: str, input: str) -> str:
-        self.logged_in_user.selected_chat.add_message(f"{self.logged_in_user.username}")
+    def send_message(self, philosopher_name: str, input_text: str) -> str:
+        self.logged_in_user.add_message(f"{self.logged_in_user.username}", input_text)
 
         prompt = self.prompt_loader.load_prompts(input, philosopher_name)
         response = self.chat_completer.completion(prompt)
 
-        self.logged_in_user.selected_chat.add_message(f"{philosopher_name}", response)
-        return response
+        self.logged_in_user.add_message(f"{philosopher_name}", response)
 
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)
-
-    def _find_chat(self, chat_name: str) -> Optional[Chat]:
-        return self.logged_in_user.chat.get(chat_name)
