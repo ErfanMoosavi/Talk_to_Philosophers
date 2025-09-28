@@ -11,17 +11,26 @@ class User:
         self.selected_chat: Optional[Chat] = None
 
     def new_chat(self, chat_name: str) -> Status:
+        if self._find_chat(chat_name):
+            return Status.BAD_REQUEST
+
         new_chat = Chat(chat_name)
         self.chats.append(new_chat)
         self.selected_chat = new_chat
         return Status.SUCCESS
 
     def select_chat(self, chat_name: str) -> Status:
+        if not self._find_chat(chat_name):
+            return Status.NOT_FOUND
+
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
+        if not self._find_chat:
+            return Status.BAD_REQUEST
+
         self.selected_chat = None
         return Status.SUCCESS
 
