@@ -14,32 +14,33 @@ class Commands(Enum):
 
 
 def _handle_input(system):
-    command = input("Please enter the command: ")
+    while True:
+        command = input("Please enter the command: ")
 
-    if command == Commands.SIGNUP.value:
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
-        status = system.signup(username, password)
-        print(status)
+        if command == Commands.SIGNUP.value:
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            status = system.signup(username, password)
+            print(status.value)
 
-    elif command == Commands.LOGIN.value:
-        username = input("Enter your username: ")
-        password = input("Enter your password: ")
-        status = system.login(username, password)
-        print(status)
+        elif command == Commands.LOGIN.value:
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            status = system.login(username, password)
+            print(status.value)
 
-    elif command == Commands.LOGOUT.value:
-        status = system.logout()
-        print(status)
+        elif command == Commands.LOGOUT.value:
+            status = system.logout()
+            print(status.value)
 
-    elif command == Commands.NEW_CHAT.value:
-        chat_name = input("Enter the chat name: ")
-        status = system.new_chat(chat_name)
-        print(status)
+        elif command == Commands.NEW_CHAT.value:
+            chat_name = input("Enter the chat name: ")
+            status = system.new_chat(chat_name)
+            print(status.value)
 
-    elif command == Commands.SEND_MESSAGE.value:
-        message = input("Enter your message to {philosopher_name}: ")
-        system.send_message(message)
+        elif command == Commands.SEND_MESSAGE.value:
+            message = input("Enter your message to {philosopher_name}: ")
+            system.send_message(message)
 
 
 def main():
