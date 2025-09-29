@@ -1,6 +1,9 @@
 from typing import Optional
 
-from internals import ChatCompleter, PromptLoader, User, Status
+from internals.chat_completer import ChatCompleter
+from internals.prompt_loader import PromptLoader
+from internals.user import User
+from internals.status import Status
 
 
 class System:
