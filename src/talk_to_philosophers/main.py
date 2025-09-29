@@ -1,6 +1,6 @@
 from enum import Enum
 
-from internals import System
+from talk_to_philosophers.internals.system import System
 
 
 class Commands(Enum):

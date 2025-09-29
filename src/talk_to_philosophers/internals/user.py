@@ -1,6 +1,7 @@
 from typing import Optional
 
-from . import Chat, Status
+from talk_to_philosophers.internals.chat import Chat
+from talk_to_philosophers.internals.status import Status
 
 
 class User:

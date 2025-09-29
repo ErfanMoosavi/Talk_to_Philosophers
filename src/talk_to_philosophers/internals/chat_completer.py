@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from ..globals import BASE_URL, API_KEY, MODEL_NAME
+from talk_to_philosophers.utils.globals import BASE_URL, API_KEY, MODEL_NAME
 
 
 class ChatCompleter:
