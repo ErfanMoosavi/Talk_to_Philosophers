@@ -25,6 +25,7 @@ class User:
 
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
+        self.select_chat.show_history()
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
@@ -36,6 +37,7 @@ class User:
 
     def add_message(self, role: str, message: str) -> Status:
         self.selected_chat.add_message(role, message)
+        self.select_chat.show_new_message()
         return Status.SUCCESS
 
     def _find_chat(self, chat_name: str) -> Optional[Chat]:
