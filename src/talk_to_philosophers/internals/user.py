@@ -37,6 +37,9 @@ class User:
         return Status.SUCCESS
 
     def complete_chat(self, input_text: str, prompt_loader, chat_completer) -> Status:
+        if not self.selected_chat:
+            return Status.BAD_REQUEST
+
         return self.selected_chat.complete_chat(
             input_text, self.username, prompt_loader, chat_completer
         )

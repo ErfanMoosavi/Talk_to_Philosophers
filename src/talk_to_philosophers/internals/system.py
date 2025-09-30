@@ -45,15 +45,27 @@ class System:
         return Status.SUCCESS
 
     def new_chat(self, chat_name: str, philosopher: str) -> Status:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST
+
         return self.logged_in_user.new_chat(chat_name, philosopher)
 
     def select_chat(self, chat_name: str) -> Status:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST
+
         return self.logged_in_user.select_chat(chat_name)
 
     def exit_chat(self) -> Status:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST
+
         return self.logged_in_user.exit_chat()
 
     def send_message(self, input_text: str) -> Status:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST
+
         return self.logged_in_user.complete_chat(
             input_text, self.prompt_loader, self.chat_completer
         )

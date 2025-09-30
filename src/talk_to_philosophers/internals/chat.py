@@ -12,6 +12,10 @@ class Chat:
     def complete_chat(
         self, input_text: str, username: str, prompt_loader, chat_completer
     ) -> Status:
+        cleaned_input = input_text.strip()
+        if cleaned_input == "":
+            return Status.BAD_REQUEST
+
         self._add_message(f"{username}", input_text)
 
         if self._is_first_message():
