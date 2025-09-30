@@ -7,12 +7,8 @@ class ChatCompleter:
     def __init__(self):
         self.client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
 
-    def _build_user_message(self, prompt: str) -> list[dict[str, str]]:
-        return [{"role": "user", "content": prompt}]
-
-    def complete_chat(self, prompt: str) -> str:
-        message = self._build_user_message(prompt)
+    def complete_chat(self, messages: str) -> str:
         completion = self.client.chat.completions.create(
-            model=MODEL_NAME, messages=message
+            model=MODEL_NAME, messages=messages
         )
         return completion.choices[0].message.content.strip()
