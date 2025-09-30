@@ -15,7 +15,7 @@ class User:
         if self._find_chat(chat_name):
             return Status.BAD_REQUEST
 
-        new_chat = Chat(chat_name, self.username, philosopher)
+        new_chat = Chat(chat_name, philosopher)
         self.chats[chat_name] = new_chat
         self.selected_chat = new_chat
         return Status.SUCCESS
@@ -26,11 +26,11 @@ class User:
 
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
-        self.selected_chat.show_messages_history()
+        self.selected_chat.show_all_messages()
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
-        if not self._find_chat:
+        if not self.selected_chat:
             return Status.BAD_REQUEST
 
         self.selected_chat = None
