@@ -1,51 +1,39 @@
 from talk_to_philosophers.internals.status import Status
-from talk_to_philosophers.internals.chat_items import MessageItem, HistoryItem
+from talk_to_philosophers.internals.message import Message
 
 
 class Chat:
     def __init__(self, chat_name: str, philosopher: str):
         self.chat_name = chat_name
         self.philosopher = philosopher
-        self.messages: list[MessageItem] = []
-        self.chat_history: list[HistoryItem] = []
+        self.messages: list[Message] = []
 
     def complete_chat(
         self, input_text: str, username: str, prompt_loader, chat_completer
-    ) -> Status:
+    ) -> tuple[Status, Message]:
         cleaned_input = input_text.strip()
-        if cleaned_input == "":
-            return Status.BAD_REQUEST
+        if not cleaned_input:
+            return Status.BAD_REQUEST, None
 
-        self._add_message(f"{username}", input_text)
-
+        # Prepare prompt
         if self._is_first_message():
-            prompt = prompt_loader.load_prompts(input_text, self.philosopher)
-            self._add_chat_history("user", prompt)
-        else:
-            self._add_chat_history("user", input_text)
+            prompt = prompt_loader.load_prompts(cleaned_input, self.philosopher)
+            prompt_msg = Message("user", username, prompt)
+            self._add_message(prompt_msg)
 
-        response = chat_completer.complete_chat(
-            [h.to_openai_style() for h in self.chat_history]
-        )
-        self._add_message(f"{self.philosopher}", response)
-        self._add_chat_history("assistant", response)
-        return Status.SUCCESS
+        # Add user message
+        user_msg = Message("user", username, cleaned_input)
+        self._add_message(user_msg)
 
-    def return_all_messages(self) -> None:
-        return f"---You are in '{self.chat_name}' chat---\n" + "\n".join(
-            self._show_message(message) for message in self.messages
-        )
+        # Add AI message
+        response = chat_completer.complete_chat(self.messages)
+        ai_msg = Message("assistant", self.philosopher, response)
+        self._add_message(ai_msg)
 
-    def _return_message(self, message: MessageItem) -> None:
-        return f"{message.role}: {message.message}\n{message.time}"
+        return Status.SUCCESS, ai_msg
 
-    def _add_message(self, role: str, message: str) -> None:
-        new_message = MessageItem(role, message)
-        self.messages.append(new_message)
-        self._show_message(new_message)
-
-    def _add_chat_history(self, role: str, content: str) -> None:
-        self.chat_history.append(HistoryItem(role, content))
+    def _add_message(self, new_msg: Message) -> None:
+        self.messages.append(new_msg)
 
     def _is_first_message(self) -> bool:
-        return bool(not self.chat_history)
+        return bool(not self.messages)

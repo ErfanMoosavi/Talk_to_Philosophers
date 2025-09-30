@@ -3,6 +3,7 @@ from typing import Optional
 from talk_to_philosophers.internals.chat_completer import ChatCompleter
 from talk_to_philosophers.internals.prompt_loader import PromptLoader
 from talk_to_philosophers.internals.user import User
+from talk_to_philosophers.internals.message import Message
 from talk_to_philosophers.internals.status import Status
 
 
@@ -50,7 +51,7 @@ class System:
 
         return self.logged_in_user.new_chat(chat_name, philosopher)
 
-    def select_chat(self, chat_name: str) -> Status:
+    def select_chat(self, chat_name: str) -> tuple[Status, list[Message]]:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 
@@ -62,7 +63,7 @@ class System:
 
         return self.logged_in_user.exit_chat()
 
-    def send_message(self, input_text: str) -> Status:
+    def complete_chat(self, input_text: str) -> tuple[Status, Message]:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 

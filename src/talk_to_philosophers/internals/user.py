@@ -1,6 +1,7 @@
 from typing import Optional
 
 from talk_to_philosophers.internals.chat import Chat
+from talk_to_philosophers.internals.message import Message
 from talk_to_philosophers.internals.status import Status
 
 
@@ -19,14 +20,13 @@ class User:
         self.chats[chat_name] = new_chat
         return Status.SUCCESS
 
-    def select_chat(self, chat_name: str) -> Status:
-        if not self._find_chat(chat_name):
+    def select_chat(self, chat_name: str) -> tuple[Status, list[Message]]:
+        chat = self._find_chat(chat_name)
+        if not chat:
             return Status.NOT_FOUND
 
-        chat = self._find_chat(chat_name)
         self.selected_chat = chat
-        self.selected_chat.return_all_messages()
-        return Status.SUCCESS
+        return Status.SUCCESS, self.selected_chat.messages
 
     def exit_chat(self) -> Status:
         if not self.selected_chat:
@@ -35,7 +35,9 @@ class User:
         self.selected_chat = None
         return Status.SUCCESS
 
-    def complete_chat(self, input_text: str, prompt_loader, chat_completer) -> Status:
+    def complete_chat(
+        self, input_text: str, prompt_loader, chat_completer
+    ) -> tuple[Status, Message]:
         if not self.selected_chat:
             return Status.BAD_REQUEST
 
