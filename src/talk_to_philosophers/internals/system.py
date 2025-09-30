@@ -20,7 +20,8 @@ class System:
         elif self._find_user(username):
             return Status.BAD_REQUEST
 
-        self.users[username] = User(username, password)
+        new_user = User(username, password)
+        self.users[username] = new_user
         return Status.SUCCESS
 
     def login(self, username: str, password: str) -> Status:
