@@ -44,21 +44,19 @@ class System:
         self.logged_in_user = None
         return Status.SUCCESS
 
-    def new_chat(self, chat_name: str) -> Status:
-        return self.logged_in_user.new_chat(chat_name)
+    def new_chat(self, chat_name: str, philosopher: str) -> Status:
+        return self.logged_in_user.new_chat(chat_name, philosopher)
 
     def select_chat(self, chat_name: str) -> Status:
         return self.logged_in_user.select_chat(chat_name)
 
     def exit_chat(self) -> Status:
-        return self.logged_in_user.exit_chat
+        return self.logged_in_user.exit_chat()
 
-    def send_message(self, philosopher_name: str, input_text: str) -> Status:
-        prompt = self.prompt_loader.load_prompts(input_text, philosopher_name)
-        response = self.chat_completer.completion(prompt)
-        self.logged_in_user.add_message(f"{self.logged_in_user.username}", input_text)
-        self.logged_in_user.add_message(f"{philosopher_name}", response)
-        return Status.SUCCESS
+    def send_message(self, input_text: str) -> Status:
+        return self.logged_in_user.complete_chat(
+            input_text, self.prompt_loader, self.chat_completer
+        )
 
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)

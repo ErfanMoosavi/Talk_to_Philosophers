@@ -11,11 +11,11 @@ class User:
         self.chats: dict[str, Chat] = {}
         self.selected_chat: Optional[Chat] = None
 
-    def new_chat(self, chat_name: str) -> Status:
+    def new_chat(self, chat_name: str, philosopher: str) -> Status:
         if self._find_chat(chat_name):
             return Status.BAD_REQUEST
 
-        new_chat = Chat(chat_name)
+        new_chat = Chat(chat_name, self.username, philosopher)
         self.chats[chat_name] = new_chat
         self.selected_chat = new_chat
         return Status.SUCCESS
@@ -26,7 +26,7 @@ class User:
 
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
-        self.select_chat.show_history()
+        self.selected_chat.show_history()
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
@@ -36,10 +36,10 @@ class User:
         self.selected_chat = None
         return Status.SUCCESS
 
-    def add_message(self, role: str, message: str) -> Status:
-        self.selected_chat.add_message(role, message)
-        self.select_chat.show_new_message()
-        return Status.SUCCESS
+    def complete_chat(self, input_text: str, prompt_loader, chat_completer) -> Status:
+        return self.selected_chat.complete_chat(
+            input_text, prompt_loader, chat_completer
+        )
 
     def _find_chat(self, chat_name: str) -> Optional[Chat]:
         return self.chats.get(chat_name)

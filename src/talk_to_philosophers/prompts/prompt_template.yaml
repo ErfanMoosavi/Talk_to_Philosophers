@@ -3,4 +3,4 @@ prompt: |
   Respond as if {philosopher} would respond.
   No addition, no comments. Output only the response.
   Respond to this chat:
-  {input}
+  {input_text}

@@ -11,6 +11,7 @@ class Commands(Enum):
     SELECT_CHAT = "select_chat"
     EXIT_CHAT = "exit_chat"
     SEND_MESSAGE = "send_message"
+    EXIT = "exit"
 
 
 def _handle_input(system):
@@ -35,12 +36,28 @@ def _handle_input(system):
 
         elif command == Commands.NEW_CHAT.value:
             chat_name = input("Enter the chat name: ")
-            status = system.new_chat(chat_name)
+            philosopher = input("Enter philosopher name: ")
+            status = system.new_chat(chat_name, philosopher)
+            print(status.value)
+
+        elif command == Commands.SELECT_CHAT.value:
+            chat_name = input("Enter the chat name: ")
+            status = system.select_chat(chat_name)
+            print(status.value)
+
+        elif command == Commands.EXIT_CHAT.value:
+            status = system.exit_chat()
             print(status.value)
 
         elif command == Commands.SEND_MESSAGE.value:
-            message = input("Enter your message to {philosopher_name}: ")
+            message = input("Enter your message: ")
             system.send_message(message)
+
+        elif command == Commands.EXIT.value:
+            break
+
+        else:
+            print("Please enter a valid command.")
 
 
 def main():
