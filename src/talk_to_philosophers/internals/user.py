@@ -17,7 +17,6 @@ class User:
 
         new_chat = Chat(chat_name, philosopher)
         self.chats[chat_name] = new_chat
-        self.selected_chat = new_chat
         return Status.SUCCESS
 
     def select_chat(self, chat_name: str) -> Status:
