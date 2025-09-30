@@ -31,13 +31,13 @@ class Chat:
         self._add_chat_history("assistant", response)
         return Status.SUCCESS
 
-    def show_all_messages(self) -> None:
-        print(f"You are in '{self.chat_name}' chat:")
-        for message in self.messages:
-            self._show_message(message)
+    def return_all_messages(self) -> None:
+        return f"---You are in '{self.chat_name}' chat---\n" + "\n".join(
+            self._show_message(message) for message in self.messages
+        )
 
-    def _show_message(self, message: MessageItem) -> None:
-        print(f"{message.role}: {message.message}\n{message.time}")
+    def _return_message(self, message: MessageItem) -> None:
+        return f"{message.role}: {message.message}\n{message.time}"
 
     def _add_message(self, role: str, message: str) -> None:
         new_message = MessageItem(role, message)

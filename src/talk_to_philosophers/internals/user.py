@@ -25,7 +25,7 @@ class User:
 
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
-        self.selected_chat.show_all_messages()
+        self.selected_chat.return_all_messages()
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
