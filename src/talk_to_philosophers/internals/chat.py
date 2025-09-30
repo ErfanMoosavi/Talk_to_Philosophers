@@ -2,15 +2,16 @@ from talk_to_philosophers.internals.status import Status
 
 
 class Chat:
-    def __init__(self, chat_name: int, username: str, philosopher: str):
+    def __init__(self, chat_name: int, philosopher: str):
         self.chat_name = chat_name
-        self.username = username
         self.philosopher = philosopher
         self.messages: list[dict[str, str]] = []
         self.chat_history: list[dict[str, str]] = []
 
-    def complete_chat(self, input_text: str, prompt_loader, chat_completer) -> Status:
-        self._add_message(f"{self.username}", input_text)
+    def complete_chat(
+        self, input_text: str, username: str, prompt_loader, chat_completer
+    ) -> Status:
+        self._add_message(f"{username}", input_text)
 
         if self._is_first_message():
             prompt = prompt_loader.load_prompts(input_text, self.philosopher)

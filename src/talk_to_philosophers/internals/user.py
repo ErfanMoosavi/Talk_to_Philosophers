@@ -38,7 +38,7 @@ class User:
 
     def complete_chat(self, input_text: str, prompt_loader, chat_completer) -> Status:
         return self.selected_chat.complete_chat(
-            input_text, prompt_loader, chat_completer
+            input_text, self.username, prompt_loader, chat_completer
         )
 
     def _find_chat(self, chat_name: str) -> Optional[Chat]:
