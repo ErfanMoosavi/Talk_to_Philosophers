@@ -26,7 +26,7 @@ class User:
 
         chat = self._find_chat(chat_name)
         self.selected_chat = chat
-        self.selected_chat.show_history()
+        self.selected_chat.show_messages_history()
         return Status.SUCCESS
 
     def exit_chat(self) -> Status:
