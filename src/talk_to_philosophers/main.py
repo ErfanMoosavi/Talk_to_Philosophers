@@ -12,11 +12,13 @@ class Commands(Enum):
     SELECT_CHAT = "select_chat"
     EXIT_CHAT = "exit_chat"
     DELETE_CHAT = "delete_chat"
+    HELP = "help"
     EXIT = "exit"
 
 
 def msg_to_str(msg) -> str:
-    return f"\n{msg.author}:\n{msg.content}\ntime: {msg.time}"
+    print("-" * 50)
+    return f"[{msg.time}] {msg.author} →\n{msg.content}"
 
 
 def handle_chat_session(system: System, chat_name: str) -> str:
@@ -66,6 +68,9 @@ def handle_command(command: str, system: System) -> str:
         chat_name = input("Enter the chat name: ")
         return system.delete_chat(chat_name).value
 
+    elif command == Commands.HELP.value:
+        return "HELP"
+
     elif command == Commands.EXIT.value:
         return "EXIT"
 
@@ -74,13 +79,22 @@ def handle_command(command: str, system: System) -> str:
 
 def main():
     system = System()
+
+    help_menu = "Available commands:\n\t-signup\n\t-login\n\t-logout\n\t-new_chat\n\t-select_chat\n\t-exit_chat\n\t-delete_chat\n\t-help\n\t-exit"
+
+    print("Welcome to Philosopher Chat!")
+    print(help_menu)
+
     while True:
         command = input("Please enter the command: ")
         result = handle_command(command, system)
 
         if result == "EXIT":
             break
-        print(result)
+        elif result == "HELP":
+            print(help_menu)
+        else:
+            print(result)
 
 
 if __name__ == "__main__":

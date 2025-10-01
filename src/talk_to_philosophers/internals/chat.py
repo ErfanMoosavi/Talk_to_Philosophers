@@ -32,6 +32,9 @@ class Chat:
 
         return Status.SUCCESS, ai_msg, user_msg
 
+    def get_history(self) -> list[Message]:
+        return self.messages[1:]
+
     def _add_message(self, new_msg: Message) -> None:
         self.messages.append(new_msg)
 

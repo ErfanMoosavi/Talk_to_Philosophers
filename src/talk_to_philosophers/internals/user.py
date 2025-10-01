@@ -26,7 +26,7 @@ class User:
             return Status.NOT_FOUND, []
 
         self.selected_chat = chat
-        return Status.SUCCESS, self.selected_chat.messages
+        return Status.SUCCESS, self.selected_chat.get_history()
 
     def exit_chat(self) -> Status:
         if not self.selected_chat:
