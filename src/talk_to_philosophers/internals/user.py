@@ -23,7 +23,7 @@ class User:
     def select_chat(self, chat_name: str) -> tuple[Status, list[Message]]:
         chat = self._find_chat(chat_name)
         if not chat:
-            return Status.NOT_FOUND
+            return Status.NOT_FOUND, []
 
         self.selected_chat = chat
         return Status.SUCCESS, self.selected_chat.messages

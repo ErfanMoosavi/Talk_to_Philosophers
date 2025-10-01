@@ -64,7 +64,7 @@ def handle_command(command: str, system: System) -> str:
 
     elif command == Commands.DELETE_CHAT.value:
         chat_name = input("Enter the chat name: ")
-        return system.delete_chat(chat_name)
+        return system.delete_chat(chat_name).value
 
     elif command == Commands.EXIT.value:
         return "EXIT"
