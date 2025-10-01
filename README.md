@@ -34,25 +34,8 @@ Philosopher Chat is an interactive command-line application that allows users to
 
 ## 🚀 Installation
 
-1. Clone the repository:
-
 ```bash
-git clone https://github.com/erfanmoosavi/philosopher-chat.git
-cd philosopher-chat
-```
-
-2. Install required packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Set your API credentials (for AI completion) in a `.env` file:
-
-```
-BASE_URL=your_openai_base_url
-OPENAI_API_KEY=your_api_key
-MODEL_NAME=your_model_name
+pip install philosopher-chat
 ```
 
 ---
@@ -65,7 +48,15 @@ MODEL_NAME=your_model_name
 python main.py
 ```
 
-2. Follow the CLI prompts to sign up, log in, and start chatting.
+2. Set your API credentials (for AI completion) in a `.env` file:
+
+```
+BASE_URL=your_openai_base_url
+OPENAI_API_KEY=your_api_key
+MODEL_NAME=your_model_name
+```
+
+3. Follow the CLI prompts to sign up, log in, and start chatting.
 
 ---
 
