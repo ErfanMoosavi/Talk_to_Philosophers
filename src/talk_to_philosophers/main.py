@@ -12,6 +12,7 @@ class Commands(Enum):
     NEW_CHAT = "new_chat"
     SELECT_CHAT = "select_chat"
     EXIT_CHAT = "exit_chat"
+    DELETE_CHAT = "delete_chat"
     EXIT = "exit"
 
 
@@ -62,6 +63,10 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.SELECT_CHAT.value:
         chat_name = input("Enter the chat name: ")
         return handle_chat_session(system, chat_name)
+
+    elif command == Commands.DELETE_CHAT.value:
+        chat_name = input("Enter the chat name: ")
+        return system.delete_chat(chat_name)
 
     elif command == Commands.EXIT.value:
         return "EXIT"

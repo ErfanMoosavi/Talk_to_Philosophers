@@ -35,6 +35,17 @@ class User:
         self.selected_chat = None
         return Status.SUCCESS
 
+    def delete_chat(self, chat_name: str) -> Status:
+        chat = self._find_chat(chat_name)
+        if not chat:
+            return Status.NOT_FOUND
+
+        if self.selected_chat == chat:
+            self.selected_chat = None
+
+        del self.chats[chat_name]
+        return Status.SUCCESS
+
     def complete_chat(
         self, input_text: str, prompt_loader, chat_completer
     ) -> tuple[Status, Message]:

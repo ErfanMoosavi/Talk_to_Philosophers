@@ -63,6 +63,12 @@ class System:
 
         return self.logged_in_user.exit_chat()
 
+    def delete_chat(self, chat_name: str) -> Status:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST
+
+        return self.logged_in_user.delete_chat(chat_name)
+
     def complete_chat(self, input_text: str) -> tuple[Status, Message]:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
