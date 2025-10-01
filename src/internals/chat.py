@@ -1,5 +1,5 @@
-from talk_to_philosophers.internals.status import Status
-from talk_to_philosophers.internals.message import Message
+from internals.status import Status
+from internals.message import Message
 
 
 class Chat:

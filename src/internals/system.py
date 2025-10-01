@@ -1,10 +1,10 @@
 from typing import Optional
 
-from talk_to_philosophers.internals.chat_completer import ChatCompleter
-from talk_to_philosophers.internals.prompt_loader import PromptLoader
-from talk_to_philosophers.internals.user import User
-from talk_to_philosophers.internals.message import Message
-from talk_to_philosophers.internals.status import Status
+from internals.chat_completer import ChatCompleter
+from internals.prompt_loader import PromptLoader
+from internals.user import User
+from internals.message import Message
+from internals.status import Status
 
 
 class System:

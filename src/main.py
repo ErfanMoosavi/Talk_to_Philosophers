@@ -1,7 +1,7 @@
 from enum import Enum
 
-from talk_to_philosophers.internals.system import System
-from talk_to_philosophers.internals.status import Status
+from internals.system import System
+from internals.status import Status
 
 
 class Commands(Enum):
