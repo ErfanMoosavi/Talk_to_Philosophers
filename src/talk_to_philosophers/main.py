@@ -2,7 +2,6 @@ from enum import Enum
 
 from talk_to_philosophers.internals.system import System
 from talk_to_philosophers.internals.status import Status
-from talk_to_philosophers.internals.message import Message
 
 
 class Commands(Enum):
@@ -16,7 +15,7 @@ class Commands(Enum):
     EXIT = "exit"
 
 
-def msg_to_str(msg: Message) -> str:
+def msg_to_str(msg) -> str:
     return f"\n{msg.author}:\n{msg.content}\ntime: {msg.time}"
 
 
@@ -33,9 +32,8 @@ def handle_chat_session(system: System, chat_name: str) -> str:
         if input_text == Commands.EXIT_CHAT.value:
             system.exit_chat()
             break
-        user_msg = Message("user", system.logged_in_user.username, input_text)
+        status, ai_msg, user_msg = system.complete_chat(input_text)
         print(msg_to_str(user_msg))
-        status, ai_msg = system.complete_chat(input_text)
         print(msg_to_str(ai_msg))
 
     return "Exited chat."

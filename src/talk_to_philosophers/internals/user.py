@@ -48,7 +48,7 @@ class User:
 
     def complete_chat(
         self, input_text: str, prompt_loader, chat_completer
-    ) -> tuple[Status, Message]:
+    ) -> tuple[Status, Message, Message]:
         if not self.selected_chat:
             return Status.BAD_REQUEST
 

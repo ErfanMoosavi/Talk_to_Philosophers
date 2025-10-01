@@ -10,7 +10,7 @@ class Chat:
 
     def complete_chat(
         self, input_text: str, username: str, prompt_loader, chat_completer
-    ) -> tuple[Status, Message]:
+    ) -> tuple[Status, Message, Message]:
         cleaned_input = input_text.strip()
         if not cleaned_input:
             return Status.BAD_REQUEST, None
@@ -30,7 +30,7 @@ class Chat:
         ai_msg = Message("assistant", self.philosopher, response)
         self._add_message(ai_msg)
 
-        return Status.SUCCESS, ai_msg
+        return Status.SUCCESS, ai_msg, user_msg
 
     def _add_message(self, new_msg: Message) -> None:
         self.messages.append(new_msg)
