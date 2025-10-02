@@ -13,6 +13,7 @@ class Commands(Enum):
     DELETE_ACCOUNT = "delete_account"
     NEW_CHAT = "new_chat"
     SELECT_CHAT = "select_chat"
+    LIST_CHATS = "list_chats"
     EXIT_CHAT = "exit_chat"
     DELETE_CHAT = "delete_chat"
     HELP = "help"
@@ -85,6 +86,11 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.SELECT_CHAT.value:
         chat_name = input("Enter the chat name: ")
         return handle_chat_session(system, chat_name)
+
+    elif command == Commands.LIST_CHATS.value:
+        status, chats = system.list_chats()
+        for chat in chats:
+            print(f"{chat.chat_name}\tPhilosopher-> {chat.philosopher}")
 
     elif command == Commands.DELETE_CHAT.value:
         chat_name = input("Enter the chat name: ")

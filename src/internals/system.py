@@ -3,6 +3,7 @@ from typing import Optional
 from internals.chat_completer import ChatCompleter
 from internals.prompt_loader import PromptLoader
 from internals.user import User
+from internals.chat import Chat
 from internals.message import Message
 from internals.status import Status
 
@@ -64,6 +65,12 @@ class System:
             return Status.BAD_REQUEST
 
         return self.logged_in_user.select_chat(chat_name)
+
+    def list_chats(self) -> tuple[Status, list[Chat]]:
+        if not self.logged_in_user:
+            return Status.BAD_REQUEST, []
+
+        return self.logged_in_user.list_chats()
 
     def exit_chat(self) -> Status:
         if not self.logged_in_user:

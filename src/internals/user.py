@@ -28,6 +28,12 @@ class User:
         self.selected_chat = chat
         return Status.SUCCESS, self.selected_chat.get_history()
 
+    def list_chats(self) -> tuple[Status, list[Chat]]:
+        if not self.chats:
+            return Status.NOT_FOUND, []
+
+        return Status.SUCCESS, list(self.chats.values())
+
     def exit_chat(self) -> Status:
         if not self.selected_chat:
             return Status.BAD_REQUEST
