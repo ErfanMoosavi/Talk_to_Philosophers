@@ -45,6 +45,14 @@ class System:
         self.logged_in_user = None
         return Status.SUCCESS
 
+    def delete_account(self) -> Status:
+        if not self.logged_in_user:
+            return Status.PERMISSION_DENIED
+
+        del self.users[self.logged_in_user.username]
+        self.logout()
+        return Status.SUCCESS
+
     def new_chat(self, chat_name: str, philosopher: str) -> Status:
         if not self.logged_in_user:
             return Status.BAD_REQUEST

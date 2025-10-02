@@ -10,6 +10,7 @@ class Commands(Enum):
     SIGNUP = "signup"
     LOGIN = "login"
     LOGOUT = "logout"
+    DELETE_ACCOUNT = "delete_account"
     NEW_CHAT = "new_chat"
     SELECT_CHAT = "select_chat"
     EXIT_CHAT = "exit_chat"
@@ -64,6 +65,9 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.LOGOUT.value:
         return system.logout().value
 
+    elif command == Commands.DELETE_ACCOUNT.value:
+        return system.delete_account().value
+
     elif command == Commands.NEW_CHAT.value:
         chat_name = input("Enter the chat name: ")
 
@@ -98,7 +102,9 @@ def handle_command(command: str, system: System) -> str:
 def main():
     system = System()
 
-    help_menu = "Available commands:\n\t-signup\n\t-login\n\t-logout\n\t-new_chat\n\t-select_chat\n\t-exit_chat\n\t-delete_chat\n\t-help\n\t-exit"
+    help_menu = "Available commands:"
+    for command in Commands:
+        help_menu += "\n\t-" + command.value
 
     print("Welcome to Philosopher Chat!")
     print(help_menu)
