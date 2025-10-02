@@ -19,5 +19,7 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
+[tool.uv.workspace]
+members = [
+    "philosopher_chat",
+]
