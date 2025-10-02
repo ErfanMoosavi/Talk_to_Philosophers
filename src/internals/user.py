@@ -3,6 +3,7 @@ from typing import Optional
 from internals.chat import Chat
 from internals.message import Message
 from internals.status import Status
+from internals.philosopher import Philosopher
 
 
 class User:
@@ -12,16 +13,16 @@ class User:
         self.chats: dict[str, Chat] = {}
         self.selected_chat: Optional[Chat] = None
 
-    def new_chat(self, chat_name: str, philosopher: str) -> Status:
-        if self._find_chat(chat_name):
+    def new_chat(self, name: str, philosopher: Philosopher) -> Status:
+        if self._find_chat(name):
             return Status.BAD_REQUEST
 
-        new_chat = Chat(chat_name, philosopher)
-        self.chats[chat_name] = new_chat
+        new_chat = Chat(name, philosopher)
+        self.chats[name] = new_chat
         return Status.SUCCESS
 
-    def select_chat(self, chat_name: str) -> tuple[Status, list[Message]]:
-        chat = self._find_chat(chat_name)
+    def select_chat(self, name: str) -> tuple[Status, list[Message]]:
+        chat = self._find_chat(name)
         if not chat:
             return Status.NOT_FOUND, []
 
@@ -41,15 +42,15 @@ class User:
         self.selected_chat = None
         return Status.SUCCESS
 
-    def delete_chat(self, chat_name: str) -> Status:
-        chat = self._find_chat(chat_name)
+    def delete_chat(self, name: str) -> Status:
+        chat = self._find_chat(name)
         if not chat:
             return Status.NOT_FOUND
 
         if self.selected_chat == chat:
             self.selected_chat = None
 
-        del self.chats[chat_name]
+        del self.chats[name]
         return Status.SUCCESS
 
     def complete_chat(
@@ -62,5 +63,5 @@ class User:
             input_text, self.username, prompt_loader, chat_completer
         )
 
-    def _find_chat(self, chat_name: str) -> Optional[Chat]:
-        return self.chats.get(chat_name)
+    def _find_chat(self, name: str) -> Optional[Chat]:
+        return self.chats.get(name)

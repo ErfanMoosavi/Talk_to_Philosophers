@@ -1,6 +1,4 @@
 from enum import Enum
-import os
-import json
 
 from internals.system import System
 from internals.status import Status
@@ -16,15 +14,9 @@ class Commands(Enum):
     LIST_CHATS = "list_chats"
     EXIT_CHAT = "exit_chat"
     DELETE_CHAT = "delete_chat"
+    LIST_PHILOSOPHERS = "list_philosophers"
     HELP = "help"
     EXIT = "exit"
-
-
-def load_philosophers():
-    path = os.path.join(os.path.dirname(__file__), "..", "data", "philosophers.json")
-    path = os.path.abspath(path)
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 def msg_to_str(msg) -> str:
@@ -32,8 +24,8 @@ def msg_to_str(msg) -> str:
     return f"[{msg.time}] {msg.author} →\n{msg.content}"
 
 
-def handle_chat_session(system: System, chat_name: str) -> str:
-    status, all_messages = system.select_chat(chat_name)
+def handle_chat_session(system: System, name: str) -> str:
+    status, all_messages = system.select_chat(name)
     if status != Status.SUCCESS:
         return status.value
 
@@ -72,29 +64,36 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.NEW_CHAT.value:
         chat_name = input("Enter the chat name: ")
 
-        philosophers = load_philosophers()
-        for i, p in enumerate(philosophers, start=1):
-            print(f"{i}. {p['name']}")
+        philosophers_list = list(system.philosophers.values())
+        for i, p in enumerate(philosophers_list, start=1):
+            print(f"{i}. {p.name}")
 
         choice = int(input("Choose a philosopher by number: ")) - 1
-        if choice < 0 or choice >= len(philosophers):
+        if choice < 0 or choice >= len(philosophers_list):
             return "Invalid choice."
 
-        philosopher_name = philosophers[choice]["name"]
-        return system.new_chat(chat_name, philosopher_name).value
+        philosopher_obj = philosophers_list[choice]
+
+        return system.new_chat(chat_name, philosopher_obj.name).value
 
     elif command == Commands.SELECT_CHAT.value:
-        chat_name = input("Enter the chat name: ")
-        return handle_chat_session(system, chat_name)
+        name = input("Enter the chat name: ")
+        return handle_chat_session(system, name)
 
     elif command == Commands.LIST_CHATS.value:
         status, chats = system.list_chats()
         for chat in chats:
-            print(f"{chat.chat_name}\tPhilosopher-> {chat.philosopher}")
+            print(f"{chat.name}\tPhilosopher-> {chat.philosopher}")
 
     elif command == Commands.DELETE_CHAT.value:
-        chat_name = input("Enter the chat name: ")
-        return system.delete_chat(chat_name).value
+        name = input("Enter the chat name: ")
+        return system.delete_chat(name).value
+
+    elif command == Commands.LIST_PHILOSOPHERS.value:
+        status, philosophers_list = system.list_philosophers()
+        for i, p in enumerate(philosophers_list, start=1):
+            print(f"{i}. {p.name}")
+        return Status.SUCCESS.value
 
     elif command == Commands.HELP.value:
         return "HELP"
@@ -102,7 +101,8 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.EXIT.value:
         return "EXIT"
 
-    return "Please enter a valid command."
+    else:
+        return "Please enter a valid command."
 
 
 def main():

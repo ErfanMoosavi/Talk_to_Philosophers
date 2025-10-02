@@ -1,10 +1,11 @@
 from internals.status import Status
 from internals.message import Message
+from internals.philosopher import Philosopher
 
 
 class Chat:
-    def __init__(self, chat_name: str, philosopher: str):
-        self.chat_name = chat_name
+    def __init__(self, name: str, philosopher: Philosopher):
+        self.name = name
         self.philosopher = philosopher
         self.messages: list[Message] = []
 
@@ -27,7 +28,7 @@ class Chat:
 
         # Add AI message
         response = chat_completer.complete_chat(self.messages)
-        ai_msg = Message("assistant", self.philosopher, response)
+        ai_msg = Message("assistant", self.philosopher.name, response)
         self._add_message(ai_msg)
 
         return Status.SUCCESS, ai_msg, user_msg

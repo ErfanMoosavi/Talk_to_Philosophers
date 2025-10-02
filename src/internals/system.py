@@ -1,8 +1,11 @@
+import os
+import json
 from typing import Optional
 
 from internals.chat_completer import ChatCompleter
 from internals.prompt_loader import PromptLoader
 from internals.user import User
+from internals.philosopher import Philosopher
 from internals.chat import Chat
 from internals.message import Message
 from internals.status import Status
@@ -13,7 +16,7 @@ class System:
         self.prompt_loader = PromptLoader()
         self.chat_completer = ChatCompleter()
         self.users: dict[str, User] = {}
-        self.philosophers: list[str] = []
+        self.philosophers: dict[str, Philosopher] = self._load_philosophers()
         self.logged_in_user: Optional[User] = None
 
     def signup(self, username: str, password: str) -> Status:
@@ -54,17 +57,18 @@ class System:
         self.logout()
         return Status.SUCCESS
 
-    def new_chat(self, chat_name: str, philosopher: str) -> Status:
+    def new_chat(self, name: str, philosopher: str) -> Status:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 
-        return self.logged_in_user.new_chat(chat_name, philosopher)
+        philosopher = self.philosophers[philosopher]
+        return self.logged_in_user.new_chat(name, philosopher)
 
-    def select_chat(self, chat_name: str) -> tuple[Status, list[Message]]:
+    def select_chat(self, name: str) -> tuple[Status, list[Message]]:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 
-        return self.logged_in_user.select_chat(chat_name)
+        return self.logged_in_user.select_chat(name)
 
     def list_chats(self) -> tuple[Status, list[Chat]]:
         if not self.logged_in_user:
@@ -78,11 +82,17 @@ class System:
 
         return self.logged_in_user.exit_chat()
 
-    def delete_chat(self, chat_name: str) -> Status:
+    def delete_chat(self, name: str) -> Status:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 
-        return self.logged_in_user.delete_chat(chat_name)
+        return self.logged_in_user.delete_chat(name)
+
+    def list_philosophers(self) -> tuple[Status, list[Philosopher]]:
+        if not self.philosophers:
+            return Status.NOT_FOUND, []
+
+        return Status.SUCCESS, list(self.philosophers.values())
 
     def complete_chat(self, input_text: str) -> tuple[Status, Message, Message]:
         if not self.logged_in_user:
@@ -94,3 +104,16 @@ class System:
 
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)
+
+    def _load_philosophers(self) -> dict[str, Philosopher]:
+        path = os.path.join(
+            os.path.dirname(__file__), "..", "..", "data", "philosophers.json"
+        )
+        path = os.path.abspath(path)
+        with open(path, "r", encoding="utf-8") as f:
+            raw_philosophers = json.load(f)
+
+        philosophers = {}
+        for p in raw_philosophers:
+            philosophers[p["name"]] = Philosopher(p["name"])
+        return philosophers
