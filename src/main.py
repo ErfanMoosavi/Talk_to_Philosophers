@@ -1,4 +1,6 @@
 from enum import Enum
+import os
+import json
 
 from internals.system import System
 from internals.status import Status
@@ -14,6 +16,13 @@ class Commands(Enum):
     DELETE_CHAT = "delete_chat"
     HELP = "help"
     EXIT = "exit"
+
+
+def load_philosophers():
+    path = os.path.join(os.path.dirname(__file__), "..", "data", "philosophers.json")
+    path = os.path.abspath(path)
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def msg_to_str(msg) -> str:
@@ -57,8 +66,17 @@ def handle_command(command: str, system: System) -> str:
 
     elif command == Commands.NEW_CHAT.value:
         chat_name = input("Enter the chat name: ")
-        philosopher = input("Enter philosopher name: ")
-        return system.new_chat(chat_name, philosopher).value
+
+        philosophers = load_philosophers()
+        for i, p in enumerate(philosophers, start=1):
+            print(f"{i}. {p['name']}")
+
+        choice = int(input("Choose a philosopher by number: ")) - 1
+        if choice < 0 or choice >= len(philosophers):
+            return "Invalid choice."
+
+        philosopher_name = philosophers[choice]["name"]
+        return system.new_chat(chat_name, philosopher_name).value
 
     elif command == Commands.SELECT_CHAT.value:
         chat_name = input("Enter the chat name: ")
