@@ -1,17 +1,35 @@
 [
     {
-        "name": "Friedrich Nietzsche"
+        "name": "Nietzsche"
     },
     {
-        "name": "Immanuel Kant"
+        "name": "Kant"
     },
     {
-        "name": "Arthur Schopenhauer"
+        "name": "Schopenhauer"
     },
     {
         "name": "Plato"
     },
     {
         "name": "Aristotle"
+    },
+    {
+        "name": "Marx"
+    },
+    {
+        "name": "Socrates"
+    },
+    {
+        "name": "Spinoza"
+    },
+    {
+        "name": "Hegel"
+    },
+    {
+        "name": "Descartes"
+    },
+    {
+        "name": "Machiavelli"
     }
 ]
