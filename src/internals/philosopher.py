@@ -1,3 +1,4 @@
 class Philosopher:
-    def __init__(self, name: str):
+    def __init__(self, id: int, name: str):
+        self.id = id
         self.name = name

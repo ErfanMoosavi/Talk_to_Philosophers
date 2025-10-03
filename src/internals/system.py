@@ -16,7 +16,7 @@ class System:
         self.prompt_loader = PromptLoader()
         self.chat_completer = ChatCompleter()
         self.users: dict[str, User] = {}
-        self.philosophers: dict[str, Philosopher] = self._load_philosophers()
+        self.philosophers: dict[int, Philosopher] = self._load_philosophers()
         self.logged_in_user: Optional[User] = None
 
     def signup(self, username: str, password: str) -> Status:
@@ -57,11 +57,11 @@ class System:
         self.logout()
         return Status.SUCCESS
 
-    def new_chat(self, name: str, philosopher: str) -> Status:
+    def new_chat(self, name: str, philosopher_id: int) -> Status:
         if not self.logged_in_user:
             return Status.BAD_REQUEST
 
-        philosopher = self.philosophers[philosopher]
+        philosopher = self._find_philosopher(philosopher_id)
         return self.logged_in_user.new_chat(name, philosopher)
 
     def select_chat(self, name: str) -> tuple[Status, list[Message]]:
@@ -105,7 +105,10 @@ class System:
     def _find_user(self, username: str) -> Optional[User]:
         return self.users.get(username)
 
-    def _load_philosophers(self) -> dict[str, Philosopher]:
+    def _find_philosopher(self, philosopher_id: int) -> Optional[Philosopher]:
+        return self.philosophers.get(philosopher_id)
+
+    def _load_philosophers(self) -> dict[int, Philosopher]:
         path = os.path.join(
             os.path.dirname(__file__), "..", "..", "data", "philosophers.json"
         )
@@ -115,5 +118,5 @@ class System:
 
         philosophers = {}
         for p in raw_philosophers:
-            philosophers[p["name"]] = Philosopher(p["name"])
+            philosophers[p["id"]] = Philosopher(p["id"], p["name"])
         return philosophers

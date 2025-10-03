@@ -64,17 +64,19 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.NEW_CHAT.value:
         chat_name = input("Enter the chat name: ")
 
-        philosophers_list = list(system.philosophers.values())
-        for i, p in enumerate(philosophers_list, start=1):
-            print(f"{i}. {p.name}")
+        status, philosophers_list = system.list_philosophers()
+        if status != Status.SUCCESS:
+            print("No philosophers found.")
+            return status.value
 
-        choice = int(input("Choose a philosopher by number: ")) - 1
-        if choice < 0 or choice >= len(philosophers_list):
+        for i, philosopher in enumerate(philosophers_list, start=1):
+            print(f"{i}. {philosopher.name}")
+
+        philosopher_id = int(input("Choose a philosopher by number: ")) - 1
+        if philosopher_id < 0 or philosopher_id >= len(philosophers_list):
             return "Invalid choice."
 
-        philosopher_obj = philosophers_list[choice]
-
-        return system.new_chat(chat_name, philosopher_obj.name).value
+        return system.new_chat(chat_name, philosopher_id).value
 
     elif command == Commands.SELECT_CHAT.value:
         name = input("Enter the chat name: ")
@@ -83,7 +85,7 @@ def handle_command(command: str, system: System) -> str:
     elif command == Commands.LIST_CHATS.value:
         status, chats = system.list_chats()
         for chat in chats:
-            print(f"{chat.name}\tPhilosopher-> {chat.philosopher}")
+            print(f"{chat.name}\tPhilosopher-> {chat.philosopher.name}")
 
     elif command == Commands.DELETE_CHAT.value:
         name = input("Enter the chat name: ")

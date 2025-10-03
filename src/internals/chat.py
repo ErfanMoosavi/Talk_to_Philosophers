@@ -18,7 +18,7 @@ class Chat:
 
         # Prepare prompt
         if self._is_first_message():
-            prompt = prompt_loader.load_prompts(cleaned_input, self.philosopher)
+            prompt = prompt_loader.load_prompts(cleaned_input, self.philosopher.name)
             prompt_msg = Message("user", username, prompt)
             self._add_message(prompt_msg)
 

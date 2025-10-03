@@ -1,35 +1,34 @@
 [
     {
+        "id": 0,
         "name": "Nietzsche"
     },
     {
+        "id": 1,
         "name": "Kant"
     },
     {
+        "id": 2,
         "name": "Schopenhauer"
     },
     {
-        "name": "Plato"
-    },
-    {
-        "name": "Aristotle"
-    },
-    {
+        "id": 3,
         "name": "Marx"
     },
     {
+        "id": 4,
+        "name": "Plato"
+    },
+    {
+        "id": 5,
+        "name": "Machiavelli"
+    },
+    {
+        "id": 6,
         "name": "Socrates"
     },
     {
-        "name": "Spinoza"
-    },
-    {
-        "name": "Hegel"
-    },
-    {
-        "name": "Descartes"
-    },
-    {
-        "name": "Machiavelli"
+        "id": 7,
+        "name": "Heidegger"
     }
 ]
