@@ -8,7 +8,7 @@ version = "0.1.0"
 authors = [{ name = "Erfan Moosavi", email = "erfanmoosavi84@gmail.com" }]
 description = "Chat with philosophers!"
 readme = "README.md"
-license = {text = "MIT"}  # Fixed license format
+license = {text = "MIT"}
 requires-python = ">=3.8"
 dependencies = [
   "openai>=1.0.0",
