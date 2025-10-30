@@ -48,13 +48,7 @@ pip install philosopher-chat
 
 ## 🥩 Usage
 
-1. Run the application:
-
-```bash
-python main.py
-```
-
-2. Set your API credentials (for AI completion) in a `.env` file:
+1. Set your API credentials (for AI completion) in a `.env` file:
 
 ```
 BASE_URL=your_openai_base_url
@@ -62,15 +56,33 @@ OPENAI_API_KEY=your_api_key
 MODEL_NAME=your_model_name
 ```
 
-3. Follow the CLI prompts to sign up, log in, and start chatting.
+2. Run PhilosopherChat!
 
-   * Use `new_chat` to create a chat by selecting a philosopher from the numbered list.
-   * Enter messages and receive responses in the philosopher's distinctive style.
-   * Use `exit_chat` to leave a chat session safely.
-   * Use `list_chats` and `select_chat` to manage multiple chat sessions.
+```python
+from philosopher_chat import PhilosopherChat
+
+# Load environment variables from .env
+# You can also pass variables manually
+load_dotenv()
+BASE_URL = os.getenv("BASE_URL")
+API_KEY = os.getenv("OPENAI_API_KEY")
+MODEL_NAME = os.getenv("MODEL_NAME")
+
+pc = PhilosopherChat(BASE_URL, API_KEY, MODEL_NAME)
+pc.run()
+```
+
+3. Follow the CLI prompts to sign up, log in, and start chatting.
 
 ---
 
-## Contact
+## 🤝 Contributing
 
-For questions or support, reach out to **Erfan** via your preferred contact method.
+Contributions are welcome!  
+Feel free to **open issues, suggest new features, or submit pull requests**.  
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
