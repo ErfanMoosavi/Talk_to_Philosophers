@@ -16,17 +16,14 @@ class Chat:
         if not cleaned_input:
             return Status.BAD_REQUEST, None
 
-        # Prepare prompt
         if self._is_first_message():
             prompt = prompt_loader.load_prompts(cleaned_input, self.philosopher.name)
             prompt_msg = Message("user", username, prompt)
             self._add_message(prompt_msg)
 
-        # Add user message
         user_msg = Message("user", username, cleaned_input)
         self._add_message(user_msg)
 
-        # Add AI message
         response = chat_completer.complete_chat(self.messages)
         ai_msg = Message("assistant", self.philosopher.name, response)
         self._add_message(ai_msg)
