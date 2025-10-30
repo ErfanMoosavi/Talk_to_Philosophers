@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "philosopher-chat"
-version = "0.0.1"
+version = "0.1.0"
 authors = [{ name = "Erfan Moosavi", email = "erfanmoosavi84@gmail.com" }]
 description = "Chat with philosophers!"
 readme = "README.md"
@@ -12,8 +12,7 @@ license = {file = "LICENSE"}
 requires-python = ">=3.8"
 dependencies = [
   "openai==1.97.1",
-  "PyYAML>=6.0",
-  "python-dotenv>=1.0.0"
+  "pyyaml>=6.0",
 ]
 
 [tool.setuptools.packages.find]
