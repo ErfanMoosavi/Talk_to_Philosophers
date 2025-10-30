@@ -1,6 +1,5 @@
 import os
 import json
-from typing import Optional
 
 from internals.chat_completer import ChatCompleter
 from internals.prompt_loader import PromptLoader
@@ -12,12 +11,12 @@ from internals.status import Status
 
 
 class System:
-    def __init__(self):
+    def __init__(self, base_url: str, api_key: str, model_name: str):
         self.prompt_loader = PromptLoader()
-        self.chat_completer = ChatCompleter()
+        self.chat_completer = ChatCompleter(base_url, api_key, model_name)
         self.users: dict[str, User] = {}
         self.philosophers: dict[int, Philosopher] = self._load_philosophers()
-        self.logged_in_user: Optional[User] = None
+        self.logged_in_user: User | None = None
 
     def signup(self, username: str, password: str) -> Status:
         if self.logged_in_user:
@@ -102,15 +101,15 @@ class System:
             input_text, self.prompt_loader, self.chat_completer
         )
 
-    def _find_user(self, username: str) -> Optional[User]:
+    def _find_user(self, username: str) -> User | None:
         return self.users.get(username)
 
-    def _find_philosopher(self, philosopher_id: int) -> Optional[Philosopher]:
+    def _find_philosopher(self, philosopher_id: int) -> Philosopher | None:
         return self.philosophers.get(philosopher_id)
 
     def _load_philosophers(self) -> dict[int, Philosopher]:
         path = os.path.join(
-            os.path.dirname(__file__), "..", "..", "data", "philosophers.json"
+            os.path.dirname(__file__), "..", "data", "philosophers.json"
         )
         path = os.path.abspath(path)
         with open(path, "r", encoding="utf-8") as f:
