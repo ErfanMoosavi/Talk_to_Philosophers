@@ -1,6 +1,6 @@
 # Philosopher Chat
 
-Chat with your favorite philosophers—Nietzsche, Socrates, and more—in real-time!
+Chat with your favorite philosophers-Nietzsche, Socrates, and more-in real-time!
 
 ## 📌 Overview
 
@@ -16,8 +16,6 @@ Philosopher Chat is an interactive command-line application that allows users to
 * **Chat Management:** Delete or exit chats at any time.
 * **Interactive CLI:** Easy-to-use command-line interface with clear prompts and messages.
 * **Chat History:** Maintains conversation history per chat.
-* **Persistent Data Handling:** Philosopher data is loaded from JSON, supporting future expansion.
-* **Error Handling:** Validates inputs and provides user-friendly error messages.
 
 ---
 
@@ -32,7 +30,7 @@ Philosopher Chat is an interactive command-line application that allows users to
 * `exit_chat` - Exit the current chat session.
 * `delete_chat` - Delete a specific chat session.
 * `list_chats` - Show all your existing chats and their philosophers.
-* `list_philosophers` - Show all available philosophers.
+* `list_philosophers` - Show all available philosophers to chat with.
 * `help` - Show available commands.
 * `exit` - Exit the application.
 
@@ -48,7 +46,7 @@ pip install philosopher-chat
 
 ## 🥩 Usage
 
-1. Set your API credentials (for AI completion) in a `.env` file:
+### 1. Set your API credentials (for AI completion) in a `.env` file:
 
 ```
 BASE_URL=your_openai_base_url
@@ -56,7 +54,7 @@ OPENAI_API_KEY=your_api_key
 MODEL_NAME=your_model_name
 ```
 
-2. Run PhilosopherChat!
+### 2. Run PhilosopherChat!
 
 ```python
 from philosopher_chat import PhilosopherChat
@@ -72,7 +70,7 @@ pc = PhilosopherChat(BASE_URL, API_KEY, MODEL_NAME)
 pc.run()
 ```
 
-3. Follow the CLI prompts to sign up, log in, and start chatting.
+### 3. Follow the CLI prompts to sign up, log in, and start chatting.
 
 ---
 
